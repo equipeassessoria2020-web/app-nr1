@@ -52,13 +52,33 @@
 
         /* Top Bar do App */
         .app-header {
-            background-color: #1d3557;
+            background: linear-gradient(135deg, #1d3557, #457b9d);
             color: white;
             padding: 35px 20px 15px 20px;
             text-align: center;
             font-weight: bold;
             font-size: 1.1rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .alerta-importancia-app {
+            background-color: #ffb703;
+            color: #023047;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        /* Imagem fixa no topo */
+        .imagem-app-topo {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         /* Área de Conteúdo */
@@ -114,6 +134,9 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            text-align: center;
+            display: block;
+            text-decoration: none;
             transition: background 0.2s;
         }
 
@@ -139,14 +162,14 @@
         .opcoes-grupo {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
         
         .opcao-item {
             background: #f8fafc;
-            padding: 10px 12px;
+            padding: 8px 12px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             cursor: pointer;
@@ -208,13 +231,15 @@
             align-items: center;
             color: #94a3b8;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
             text-decoration: none;
+            flex: 1;
+            text-align: center;
         }
 
         .nav-item i {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 3px;
         }
 
@@ -228,75 +253,84 @@
     <div class="phone-container">
         <div class="phone-notch"></div>
         
-        <div class="app-header" id="app-title">Início</div>
+        <div class="app-header">
+            <div class="alerta-importancia-app">⚠️ TESTE FUNDAMENTAL PARA SUA SEGURANÇA</div>
+            <div id="app-title">Início</div>
+            <img src="image_0.jpeg" alt="Guia Prático" class="imagem-app-topo" id="header-img">
+        </div>
 
         <div class="app-content">
             
             <div id="screen-home" class="app-screen active">
                 <div class="app-card" style="background: linear-gradient(135deg, #457b9d, #1d3557); color: white;">
                     <h2 style="color: white;">Olá, Trabalhador! 👋</h2>
-                    <p style="color: #e2e8f0; margin-bottom: 10px;">Bem-vindo ao seu painel de monitoramento de bem-estar corporativo em conformidade com a NR-1.</p>
+                    <p style="color: #e2e8f0;">Bem-vindo ao seu painel de monitoramento de riscos psicossociais em conformidade com a NR-1.</p>
                 </div>
 
                 <div class="app-card">
-                    <h2>⚠️ Triagem Obrigatória</h2>
-                    <p>Avalie os seus índices de esgotamento e estresse profissional respondendo ao nosso questionário rápido atualizado.</p>
-                    <button class="app-btn" onclick="mudarAba('teste', 'Fazer Triagem')">Iniciar Avaliação (5 Perguntas)</button>
-                </div>
-
-                <div class="app-card">
-                    <h2>💡 Importante</h2>
-                    <p>A identificação precoce de sintomas psicossociais evita o desenvolvimento de quadros severos de Burnout.</p>
+                    <h2>📋 Avaliação Rápida</h2>
+                    <p>Mapeie agora mesmo os seus índices de desgaste profissional respondendo às 5 perguntas completas.</p>
+                    <button class="app-btn" onclick="mudarAba('teste', 'Fazer Triagem')">Iniciar Triagem</button>
                 </div>
             </div>
 
             <div id="screen-teste" class="app-screen">
                 <form id="appBurnoutForm" onsubmit="calcularApp(event)">
                     <div class="app-card">
-                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 5px;">Responda com base nos últimos meses:</p>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;">Responda de acordo com a sua rotina atual:</p>
                         
                         <div class="pergunta-bloco">
-                            <p>1. Sente exaustão extrema logo no início da jornada?</p>
+                            <p>1. Com que frequência sente exaustão física ou mental extrema após o trabalho?</p>
                             <div class="opcoes-grupo">
-                                <label class="opcao-item"><input type="radio" name="ap1" value="0" required> Raramente ou Nunca</label>
-                                <label class="opcao-item"><input type="radio" name="ap1" value="1"> Algumas vezes</label>
-                                <label class="opcao-item"><input type="radio" name="ap1" value="2"> Diariamente</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="0" required> Nunca</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="1"> Raramente</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="2"> Às vezes</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="3"> Frequentemente</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="4"> Sempre</label>
                             </div>
                         </div>
 
                         <div class="pergunta-bloco">
-                            <p>2. O volume de metas ou prazos te deixa sobrecarregado?</p>
+                            <p>2. Sente que o volume de prazos e metas ultrapassa a sua capacidade saudável?</p>
                             <div class="opcoes-grupo">
-                                <label class="opcao-item"><input type="radio" name="ap2" value="0" required> Não, o ritmo é normal</label>
-                                <label class="opcao"><label class="opcao-item"><input type="radio" name="ap2" value="1"> Ocasionalmente sim</label>
-                                <label class="opcao-item"><input type="radio" name="ap2" value="2"> Constantemente no limite</label>
+                                <label class="opcao-item"><input type="radio" name="ap2" value="0" required> Nunca</label>
+                                <label class="opcao-item"><input type="radio" name="ap2" value="1"> Raramente</label>
+                                <label class="opcao-item"><input type="radio" name="ap2" value="2"> Às vezes</label>
+                                <label class="opcao-item"><input type="radio" name="ap2" value="3"> Frequentemente</label>
+                                <label class="opcao-item"><input type="radio" name="ap2" value="4"> Sempre</label>
                             </div>
                         </div>
 
                         <div class="pergunta-bloco">
-                            <p>3. Consegue desligar-se do trabalho nas horas de folga?</p>
+                            <p>3. Tem dificuldades em desligar-se mentalmente das obrigações nas horas de folga?</p>
                             <div class="opcoes-grupo">
-                                <label class="opcao-item"><input type="radio" name="ap3" value="0" required> Sim, desligo com facilidade</label>
-                                <label class="opcao-item"><input type="radio" name="ap3" value="1"> Às vezes fico pensando</label>
-                                <label class="opcao-item"><input type="radio" name="ap3" value="2"> Não, nunca consigo desligar</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="0" required> Nunca</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="1"> Raramente</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="2"> Às vezes</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="3"> Frequentemente</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="4"> Sempre</label>
                             </div>
                         </div>
 
                         <div class="pergunta-bloco">
-                            <p>4. Notou desânimo ou apatia com suas tarefas?</p>
+                            <p>4. Notou distanciamento afetivo, apatia ou mau humor em relação às suas tarefas?</p>
                             <div class="opcoes-grupo">
-                                <label class="opcao-item"><input type="radio" name="ap4" value="0" required> Não, continuo motivado(a)</label>
-                                <label class="opcao-item"><input type="radio" name="ap4" value="1"> Sinto desânimo em alguns dias</label>
-                                <label class="opcao-item"><input type="radio" name="ap4" value="2"> Perdi totalmente o interesse</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="0" required> Nunca</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="1"> Raramente</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="2"> Às vezes</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="3"> Frequentemente</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="4"> Sempre</label>
                             </div>
                         </div>
 
                         <div class="pergunta-bloco">
-                            <p>5. O estresse do trabalho causa insônia ou dores físicas?</p>
+                            <p>5. O estresse gerado no trabalho tem provocado sintomas físicos como dores ou insônia?</p>
                             <div class="opcoes-grupo">
-                                <label class="opcao-item"><input type="radio" name="p5" value="0" required> Não apresento queixas</label>
-                                <label class="opcao-item"><input type="radio" name="p5" value="1"> Sinto sintomas esporádicos</label>
-                                <label class="opcao-item"><input type="radio" name="p5" value="2"> Sim, sofro com dores/insônia constantes</label>
+                                <label class="opcao-item"><input type="radio" name="ap5" value="0" required> Nunca</label>
+                                <label class="opcao-item"><input type="radio" name="ap5" value="1"> Raramente</label>
+                                <label class="opcao-item"><input type="radio" name="ap5" value="2"> Às vezes</label>
+                                <label class="opcao-item"><input type="radio" name="ap5" value="3"> Frequentemente</label>
+                                <label class="opcao-item"><input type="radio" name="ap5" value="4"> Sempre</label>
                             </div>
                         </div>
 
@@ -305,7 +339,7 @@
                         <div class="resultado-container" id="resultadoArea">
                             <div class="resultado-box-app" id="resBoxApp"></div>
                             <div class="nota-medica-app">
-                                <strong>Aviso Legal:</strong> Esta análise é informativa e não substitui uma consulta médica ou parecer de psicólogo e médico do trabalho habilitado.
+                                <strong>Aviso Legal:</strong> Esta triagem é informativa e preliminar. Ela não substitui em hipótese alguma uma consulta ou diagnóstico com um psicólogo ou médico habilitado.
                             </div>
                         </div>
                     </div>
@@ -315,16 +349,30 @@
             <div id="screen-direitos" class="app-screen">
                 <div class="app-card">
                     <h2>O que dita a Lei (NR-1)?</h2>
-                    <p>A Norma Regulamentadora nº 1 estabelece que todas as organizações devem gerenciar os riscos ocupacionais de forma preventiva. Isso inclui a preservação da saúde psicossocial do trabalhador.</p>
+                    <p>A Norma Regulamentadora nº 1 dita que as empresas têm a obrigação legal de mapear, mitigar e tratar riscos ocupacionais — o que inclui proteger ativamente a mente do trabalhador de abusos e sobrecargas severas.</p>
                 </div>
                 <div class="app-card">
-                    <h2>Garanta seu Conhecimento</h2>
-                    <p>Conhecer os parâmetros da lei protege a sua carreira de abusos e garante um ambiente corporativo seguro.</p>
-                    <a href="https://go.hotmart.com/B105978148W" target="_blank" class="app-btn" style="text-align:center; display:block; text-decoration:none;">Clique aqui e veja seus direitos</a>
+                    <h2>Garanta sua Proteção</h2>
+                    <p>Entender a lei resguarda a sua integridade e evita o adoecimento no ambiente profissional corporativo.</p>
+                    <a href="https://go.hotmart.com/B105978148W" target="_blank" class="app-btn">Clique aqui e veja seus direitos</a>
                 </div>
             </div>
 
-        </div>
+            <div id="screen-materiais" class="app-screen">
+                <div class="app-card">
+                    <h2>Biblioteca de Apoio 📚</h2>
+                    <p>Acesse conteúdos exclusivos criados para expandir sua visão sobre segurança corporativa, saúde mental e conformidade regulatória.</p>
+                </div>
+                <div class="app-card">
+                    <p style="font-weight: bold; color: #1d3557; margin-bottom: 5px;">📘 E-book Principal:</p>
+                    <p style="margin-bottom: 12px;">Guia Prático de Combate ao Estresse Ocupacional e aplicação das diretrizes protetivas.</p>
+                    <a href="https://go.hotmart.com/B105978148W" target="_blank" class="app-btn" style="background-color: #457b9d;">
+                        Ler Conteúdo Completo
+                    </a>
+                </div>
+            </div>
+
+		</div>
 
         <div class="app-nav">
             <div class="nav-item active" id="btn-home" onclick="mudarAba('home', 'Início')">
@@ -339,6 +387,10 @@
                 <i class="fa-solid fa-scale-balanced"></i>
                 Direitos
             </div>
+            <div class="nav-item" id="btn-materiais" onclick="mudarAba('materiais', 'Materiais')">
+                <i class="fa-solid fa-book-open"></i>
+                Materiais
+            </div>
         </div>
 
     </div>
@@ -352,7 +404,6 @@
             document.getElementById('btn-' + telaNome).classList.add('active');
             document.getElementById('app-title').innerText = tituloTopo;
             
-            // Se mudar de aba, esconde o resultado anterior para refazer limpo
             if(telaNome !== 'teste') {
                 document.getElementById('resultadoArea').style.display = "none";
                 document.getElementById('appBurnoutForm').reset();
@@ -366,31 +417,26 @@
             total += parseInt(document.querySelector('input[name="ap2"]:checked').value);
             total += parseInt(document.querySelector('input[name="ap3"]:checked').value);
             total += parseInt(document.querySelector('input[name="ap4"]:checked').value);
-            total += parseInt(document.querySelector('input[name="p5"]:checked').value);
+            total += parseInt(document.querySelector('input[name="ap5"]:checked').value);
 
             const container = document.getElementById('resultadoArea');
             const box = document.getElementById('resBoxApp');
             container.style.display = "block";
 
-            // Lógica de 3 Cores Dinâmicas
-            if(total <= 3) {
-                // VERDE: Estável
+            if(total <= 6) {
                 box.style.backgroundColor = "#d8f3dc";
                 box.style.color = "#1b4332";
-                box.innerHTML = "Pontos: " + total + " / 10<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Baixo. Seus índices de estresse estão controlados.</span>";
-            } else if(total <= 6) {
-                // AMARELO: Alerta
+                box.innerHTML = "Pontos: " + total + " / 20<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Estável: Indicadores controlados. Continue mantendo bons hábitos profissionais.</span>";
+            } else if(total <= 13) {
                 box.style.backgroundColor = "#fefae0";
                 box.style.color = "#606c38";
-                box.innerHTML = "Pontos: " + total + " / 10<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Moderado. Sinais de desgaste. Recomenda-se atenção à rotina.</span>";
+                box.innerHTML = "Pontos: " + total + " / 20<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Alerta: Sinais claros de esgotamento. Monitore suas pausas ativamente.</span>";
             } else {
-                // VERMELHO: Crítico
                 box.style.backgroundColor = "#f8d7da";
                 box.style.color = "#842029";
-                box.innerHTML = "Pontos: " + total + " / 10<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Crítico! Alto esgotamento. Busque suporte em saúde mental.</span>";
+                box.innerHTML = "Pontos: " + total + " / 20<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Crítico! Altos riscos psicossociais indicados. Recomenda-se orientação.</span>";
             }
             
-            // Faz um pequeno scroll suave para exibir o resultado se a tela for pequena
             document.querySelector('.app-content').scrollTo({
                 top: document.querySelector('.app-content').scrollHeight,
                 behavior: 'smooth'
