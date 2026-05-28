@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Triagem Saúde Mental - NR-1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #1e1e24;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Simulador de Smartphone */
+        .phone-container {
+            width: 375px;
+            height: 760px;
+            background-color: #f7f9fc;
+            border: 12px solid #2b2d42;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-notch {
+            width: 150px;
+            height: 25px;
+            background-color: #2b2d42;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 100;
+        }
+
+        /* Top Bar do App */
+        .app-header {
+            background-color: #1d3557;
+            color: white;
+            padding: 35px 20px 15px 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Área de Conteúdo */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 80px; 
+        }
+
+        .app-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        .app-screen {
+            display: none;
+        }
+
+        .app-screen.active {
+            display: block;
+        }
+
+        /* Cards do Aplicativo */
+        .app-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f7;
+        }
+
+        .app-card h2 {
+            font-size: 1.2rem;
+            color: #1d3557;
+            margin-bottom: 8px;
+        }
+
+        .app-card p {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .app-btn {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .app-btn:active {
+            background-color: #c1121f;
+            transform: scale(0.98);
+        }
+
+        /* Estilização das Questões */
+        .pergunta-bloco {
+            margin-top: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 15px;
+        }
+        
+        .pergunta-bloco p {
+            font-weight: 600;
+            color: #1d3557;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+        
+        .opcoes-grupo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .opcao-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        
+        .opcao-item input {
+            margin-right: 10px;
+            transform: scale(1.1);
+            accent-color: #1d3557;
+        }
+
+        /* Caixa de Resultado Dinâmica */
+        .resultado-container {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .resultado-box-app {
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .nota-medica-app {
+            background-color: #f1f5f9;
+            border: 1px dashed #94a3b8;
+            color: #475569;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* Barra de Menu Inferior */
+        .app-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 10px;
+            z-index: 99;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: #1d3557;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        <div class="phone-notch"></div>
+        
+        <div class="app-header" id="app-title">Início</div>
+
+        <div class="app-content">
+            
+            <div id="screen-home" class="app-screen active">
+                <div class="app-card" style="background: linear-gradient(135deg, #457b9d, #1d3557); color: white;">
+                    <h2 style="color: white;">Olá, Trabalhador! 👋</h2>
+                    <p style="color: #e2e8f0; margin-bottom: 10px;">Bem-vindo ao seu painel de monitoramento de bem-estar corporativo em conformidade com a NR-1.</p>
+                </div>
+
+                <div class="app-card">
+                    <h2>⚠️ Triagem Obrigatória</h2>
+                    <p>Avalie os seus índices de esgotamento e estresse profissional respondendo ao nosso questionário rápido atualizado.</p>
+                    <button class="app-btn" onclick="mudarAba('teste', 'Fazer Triagem')">Iniciar Avaliação (5 Perguntas)</button>
+                </div>
+
+                <div class="app-card">
+                    <h2>💡 Importante</h2>
+                    <p>A identificação precoce de sintomas psicossociais evita o desenvolvimento de quadros severos de Burnout.</p>
+                </div>
+            </div>
+
+            <div id="screen-teste" class="app-screen">
+                <form id="appBurnoutForm" onsubmit="calcularApp(event)">
+                    <div class="app-card">
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 5px;">Responda com base nos últimos meses:</p>
+                        
+                        <div class="pergunta-bloco">
+                            <p>1. Sente exaustão extrema logo no início da jornada?</p>
+                            <div class="opcoes-grupo">
+                                <label class="opcao-item"><input type="radio" name="ap1" value="0" required> Raramente ou Nunca</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="1"> Algumas vezes</label>
+                                <label class="opcao-item"><input type="radio" name="ap1" value="2"> Diariamente</label>
+                            </div>
+                        </div>
+
+                        <div class="pergunta-bloco">
+                            <p>2. O volume de metas ou prazos te deixa sobrecarregado?</p>
+                            <div class="opcoes-grupo">
+                                <label class="opcao-item"><input type="radio" name="ap2" value="0" required> Não, o ritmo é normal</label>
+                                <label class="opcao"><label class="opcao-item"><input type="radio" name="ap2" value="1"> Ocasionalmente sim</label>
+                                <label class="opcao-item"><input type="radio" name="ap2" value="2"> Constantemente no limite</label>
+                            </div>
+                        </div>
+
+                        <div class="pergunta-bloco">
+                            <p>3. Consegue desligar-se do trabalho nas horas de folga?</p>
+                            <div class="opcoes-grupo">
+                                <label class="opcao-item"><input type="radio" name="ap3" value="0" required> Sim, desligo com facilidade</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="1"> Às vezes fico pensando</label>
+                                <label class="opcao-item"><input type="radio" name="ap3" value="2"> Não, nunca consigo desligar</label>
+                            </div>
+                        </div>
+
+                        <div class="pergunta-bloco">
+                            <p>4. Notou desânimo ou apatia com suas tarefas?</p>
+                            <div class="opcoes-grupo">
+                                <label class="opcao-item"><input type="radio" name="ap4" value="0" required> Não, continuo motivado(a)</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="1"> Sinto desânimo em alguns dias</label>
+                                <label class="opcao-item"><input type="radio" name="ap4" value="2"> Perdi totalmente o interesse</label>
+                            </div>
+                        </div>
+
+                        <div class="pergunta-bloco">
+                            <p>5. O estresse do trabalho causa insônia ou dores físicas?</p>
+                            <div class="opcoes-grupo">
+                                <label class="opcao-item"><input type="radio" name="p5" value="0" required> Não apresento queixas</label>
+                                <label class="opcao-item"><input type="radio" name="p5" value="1"> Sinto sintomas esporádicos</label>
+                                <label class="opcao-item"><input type="radio" name="p5" value="2"> Sim, sofro com dores/insônia constantes</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="app-btn" style="margin-top: 20px;">Ver Resultado no App</button>
+                        
+                        <div class="resultado-container" id="resultadoArea">
+                            <div class="resultado-box-app" id="resBoxApp"></div>
+                            <div class="nota-medica-app">
+                                <strong>Aviso Legal:</strong> Esta análise é informativa e não substitui uma consulta médica ou parecer de psicólogo e médico do trabalho habilitado.
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="screen-direitos" class="app-screen">
+                <div class="app-card">
+                    <h2>O que dita a Lei (NR-1)?</h2>
+                    <p>A Norma Regulamentadora nº 1 estabelece que todas as organizações devem gerenciar os riscos ocupacionais de forma preventiva. Isso inclui a preservação da saúde psicossocial do trabalhador.</p>
+                </div>
+                <div class="app-card">
+                    <h2>Garanta seu Conhecimento</h2>
+                    <p>Conhecer os parâmetros da lei protege a sua carreira de abusos e garante um ambiente corporativo seguro.</p>
+                    <a href="https://go.hotmart.com/B105978148W" target="_blank" class="app-btn" style="text-align:center; display:block; text-decoration:none;">Clique aqui e veja seus direitos</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="app-nav">
+            <div class="nav-item active" id="btn-home" onclick="mudarAba('home', 'Início')">
+                <i class="fa-solid fa-house"></i>
+                Início
+            </div>
+            <div class="nav-item" id="btn-teste" onclick="mudarAba('teste', 'Fazer Triagem')">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Teste
+            </div>
+            <div class="nav-item" id="btn-direitos" onclick="mudarAba('direitos', 'Meus Direitos')">
+                <i class="fa-solid fa-scale-balanced"></i>
+                Direitos
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function mudarAba(telaNome, tituloTopo) {
+            document.querySelectorAll('.app-screen').forEach(tela => tela.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('screen-' + telaNome).classList.add('active');
+            document.getElementById('btn-' + telaNome).classList.add('active');
+            document.getElementById('app-title').innerText = tituloTopo;
+            
+            // Se mudar de aba, esconde o resultado anterior para refazer limpo
+            if(telaNome !== 'teste') {
+                document.getElementById('resultadoArea').style.display = "none";
+                document.getElementById('appBurnoutForm').reset();
+            }
+        }
+
+        function calcularApp(event) {
+            event.preventDefault();
+            let total = 0;
+            total += parseInt(document.querySelector('input[name="ap1"]:checked').value);
+            total += parseInt(document.querySelector('input[name="ap2"]:checked').value);
+            total += parseInt(document.querySelector('input[name="ap3"]:checked').value);
+            total += parseInt(document.querySelector('input[name="ap4"]:checked').value);
+            total += parseInt(document.querySelector('input[name="p5"]:checked').value);
+
+            const container = document.getElementById('resultadoArea');
+            const box = document.getElementById('resBoxApp');
+            container.style.display = "block";
+
+            // Lógica de 3 Cores Dinâmicas
+            if(total <= 3) {
+                // VERDE: Estável
+                box.style.backgroundColor = "#d8f3dc";
+                box.style.color = "#1b4332";
+                box.innerHTML = "Pontos: " + total + " / 10<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Baixo. Seus índices de estresse estão controlados.</span>";
+            } else if(total <= 6) {
+                // AMARELO: Alerta
+                box.style.backgroundColor = "#fefae0";
+                box.style.color = "#606c38";
+                box.innerHTML = "Pontos: " + total + " / 10<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Moderado. Sinais de desgaste. Recomenda-se atenção à rotina.</span>";
+            } else {
+                // VERMELHO: Crítico
+                box.style.backgroundColor = "#f8d7da";
+                box.style.color = "#842029";
+                box.innerHTML = "Pontos: " + total + " / 10<br><span style='font-size:0.85rem; font-weight:normal;'>Nível Crítico! Alto esgotamento. Busque suporte em saúde mental.</span>";
+            }
+            
+            // Faz um pequeno scroll suave para exibir o resultado se a tela for pequena
+            document.querySelector('.app-content').scrollTo({
+                top: document.querySelector('.app-content').scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
